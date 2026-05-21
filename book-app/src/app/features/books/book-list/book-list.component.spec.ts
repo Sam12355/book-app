@@ -15,7 +15,7 @@ describe('BookListComponent', () => {
   let http: HttpTestingController;
 
   beforeEach(async () => {
-    // Bootstrap Modal is not available in the test environment — stub it out
+    // Bootstrap Modal is not available in the test environment, so stub it out
     (window as any).bootstrap = {
       Modal: class {
         show() {}

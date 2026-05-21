@@ -15,7 +15,7 @@ public class BookApiFactory : WebApplicationFactory<Program>
 
     public BookApiFactory()
     {
-        // Named shared in-memory SQLite database — persists as long as this connection stays open
+        // Named shared in-memory SQLite database, persists as long as this connection stays open
         _connection = new SqliteConnection($"Data Source={Guid.NewGuid()};Mode=Memory;Cache=Shared");
         _connection.Open();
     }
