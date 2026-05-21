@@ -55,17 +55,11 @@ builder.Services.AddAuthentication(options =>
 // Register the Authorization service — required to use [Authorize] on controllers
 builder.Services.AddAuthorization();
 
-// CORS_ORIGINS env var can hold comma-separated production URLs; localhost is always included
-var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "")
-    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-    .Append("http://localhost:4200")
-    .ToArray();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins(corsOrigins)
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
