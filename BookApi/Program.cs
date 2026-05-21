@@ -25,10 +25,8 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Read the JWT secret key — prefer the JWT_KEY env var so the real secret is never committed
-var jwtKey = Encoding.UTF8.GetBytes(
-    Environment.GetEnvironmentVariable("JWT_KEY")
-    ?? builder.Configuration["Jwt:Key"]!);
+// Read the JWT secret key from configuration (appsettings.json or Jwt__Key env var on Render)
+var jwtKey = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
 
 // Register JWT Bearer authentication — this teaches the app how to validate incoming tokens
 builder.Services.AddAuthentication(options =>
