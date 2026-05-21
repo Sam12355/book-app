@@ -1,0 +1,39 @@
+// quotes.component.scss
+
+// ── Add card ──────────────────────────────────────────────────────────────────
+.add-card {
+  border-left: 4px solid #0d6efd !important; // Blue left accent bar — visually separates the add form
+  background-color: var(--surface-color);
+}
+
+// ── Quote cards ───────────────────────────────────────────────────────────────
+.quote-card {
+  background-color: var(--surface-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease; // Smooth hover lift
+
+  &:hover {
+    transform: translateY(-3px);              // Card lifts up slightly on hover
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+  }
+}
+
+// ── Quote text ────────────────────────────────────────────────────────────────
+.quote-text {
+  font-size: 1rem;
+  line-height: 1.7;                           // Generous line height for readability
+  color: var(--text-color);
+  word-break: break-word;                     // Prevents very long words from overflowing the card
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-state i {
+  opacity: 0.25;
+}
+
+// ── Textarea in edit mode ─────────────────────────────────────────────────────
+textarea.form-control {
+  background-color: var(--input-bg);         // Theme-aware textarea background
+  color: var(--text-color);
+  border-color: var(--border-color);
+  resize: vertical;                          // User can drag the textarea taller but not wider
+}

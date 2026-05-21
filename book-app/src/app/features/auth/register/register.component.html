@@ -1,0 +1,140 @@
+<!-- Register page — same centred card layout as Login -->
+<div class="page-content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+              <h2 class="fw-bold mb-1">Create account</h2>
+              <p class="text-muted">Join BookShelf today — it's free</p>
+            </div>
+
+            <!-- Success alert — shown after successful registration -->
+            @if (successMsg()) {
+              <div class="alert alert-success d-flex align-items-center gap-2">
+                <i class="fas fa-circle-check"></i>
+                <span>{{ successMsg() }}</span>
+              </div>
+            }
+
+            <!-- Error alert -->
+            @if (errorMsg()) {
+              <div class="alert alert-danger d-flex align-items-center gap-2">
+                <i class="fas fa-circle-exclamation"></i>
+                <span>{{ errorMsg() }}</span>
+              </div>
+            }
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+              <!-- Username -->
+              <div class="mb-3">
+                <label for="username" class="form-label fw-semibold">Username</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input
+                    id="username"
+                    type="text"
+                    class="form-control"
+                    formControlName="username"
+                    placeholder="Choose a username"
+                    [class.is-invalid]="username?.invalid && username?.touched"
+                    [class.is-valid]="username?.valid && username?.touched">
+                    <!-- is-valid adds Bootstrap green border when valid AND touched -->
+                </div>
+                @if (username?.touched && username?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Username is required.</div>
+                }
+                @if (username?.touched && username?.errors?.['minlength']) {
+                  <div class="invalid-feedback d-block">Username must be at least 3 characters.</div>
+                }
+              </div>
+
+              <!-- Password -->
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                  <input
+                    id="password"
+                    [type]="showPassword() ? 'text' : 'password'"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Create a password"
+                    [class.is-invalid]="password?.invalid && password?.touched"
+                    [class.is-valid]="password?.valid && password?.touched">
+                  <button type="button" class="input-group-text" (click)="showPassword.set(!showPassword())" tabindex="-1">
+                    <i class="fas" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+                  </button>
+                </div>
+                @if (password?.touched && password?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Password is required.</div>
+                }
+                @if (password?.touched && password?.errors?.['minlength']) {
+                  <div class="invalid-feedback d-block">Password must be at least 6 characters.</div>
+                }
+              </div>
+
+              <!-- Confirm password -->
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                  <input
+                    id="confirmPassword"
+                    [type]="showConfirmPassword() ? 'text' : 'password'"
+                    class="form-control"
+                    formControlName="confirmPassword"
+                    placeholder="Repeat your password"
+                    [class.is-invalid]="(confirmPassword?.touched && confirmPassword?.errors?.['required'])
+                                     || (confirmPassword?.touched && registerForm.errors?.['passwordsMismatch'])"
+                    [class.is-valid]="confirmPassword?.valid && confirmPassword?.touched
+                                   && !registerForm.errors?.['passwordsMismatch']">
+                  <button type="button" class="input-group-text" (click)="showConfirmPassword.set(!showConfirmPassword())" tabindex="-1">
+                    <i class="fas" [class.fa-eye]="!showConfirmPassword()" [class.fa-eye-slash]="showConfirmPassword()"></i>
+                  </button>
+                </div>
+                @if (confirmPassword?.touched && confirmPassword?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Please confirm your password.</div>
+                }
+                <!-- Cross-field error lives on the FormGroup, not the individual control -->
+                @if (confirmPassword?.touched && registerForm.errors?.['passwordsMismatch']) {
+                  <div class="invalid-feedback d-block">Passwords do not match.</div>
+                }
+              </div>
+
+              <!-- Submit button -->
+              <button
+                type="submit"
+                class="btn btn-primary w-100 py-2 fw-semibold"
+                [disabled]="registerForm.invalid || isLoading()">
+                @if (isLoading()) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Creating account...
+                } @else {
+                  <i class="fas fa-user-plus me-2"></i>Create Account
+                }
+              </button>
+
+            </form>
+
+            <!-- Footer -->
+            <div class="text-center mt-4">
+              <span class="text-muted">Already have an account? </span>
+              <a routerLink="/login" class="text-primary fw-semibold text-decoration-none">
+                Sign in
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

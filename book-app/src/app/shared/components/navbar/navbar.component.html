@@ -1,0 +1,88 @@
+<!-- Bootstrap fixed-top navbar — stays at the top while the user scrolls -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+
+    <!-- ── Brand / Logo ─────────────────────────────────────────────────── -->
+    <!-- routerLink navigates without a full page reload (SPA navigation) -->
+    <a class="navbar-brand fw-bold" routerLink="/books">
+      <i class="fas fa-book-open me-2"></i>BookShelf <!-- Font Awesome icon + app name -->
+    </a>
+
+    <!-- ── Hamburger button (visible on mobile only) ────────────────────── -->
+    <!-- data-bs-toggle and data-bs-target are Bootstrap JS attributes -->
+    <!-- They tell Bootstrap which element to collapse/expand on click -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span> <!-- The three-line hamburger icon -->
+    </button>
+
+    <!-- ── Collapsible nav content ───────────────────────────────────────── -->
+    <!-- On desktop: always visible. On mobile: collapses behind hamburger button -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+
+      <!-- ── Left nav links (only shown when logged in) ─────────────────── -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- *ngIf shows these links only when the user is logged in -->
+        <!-- authService.isLoggedIn() reads the signal — updates instantly on login/logout -->
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a
+            class="nav-link"
+            routerLink="/books"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+            <!-- routerLinkActive adds class "active" when this route is the current page -->
+            <i class="fas fa-books me-1"></i>Books
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a
+            class="nav-link"
+            routerLink="/quotes"
+            routerLinkActive="active">
+            <i class="fas fa-quote-left me-1"></i>My Quotes
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- ── Right side controls ───────────────────────────────────────────── -->
+      <div class="d-flex align-items-center gap-2">
+
+        <!-- Dark / Light mode toggle button -->
+        <!-- (isDark()) reads the signal — icon swaps automatically when toggled -->
+        <button
+          class="btn btn-outline-secondary btn-sm"
+          (click)="toggleDarkMode()"
+          [title]="isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+          <!-- Show moon icon in light mode, sun icon in dark mode -->
+          <i class="fas" [class.fa-moon]="!isDark()" [class.fa-sun]="isDark()"></i>
+        </button>
+
+        <!-- Logout button — only shown when logged in -->
+        <button
+          class="btn btn-outline-danger btn-sm"
+          *ngIf="authService.isLoggedIn()"
+          (click)="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </button>
+
+        <!-- Login link — only shown when NOT logged in -->
+        <a
+          class="btn btn-primary btn-sm"
+          *ngIf="!authService.isLoggedIn()"
+          routerLink="/login">
+          <i class="fas fa-sign-in-alt me-1"></i>Login
+        </a>
+
+      </div>
+    </div>
+  </div>
+</nav>

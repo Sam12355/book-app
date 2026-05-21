@@ -1,0 +1,23 @@
+// book-list.component.scss
+
+// ── Table ─────────────────────────────────────────────────────────────────────
+.table {
+  // Make all table cells vertically centred — looks cleaner with action buttons
+  td, th { vertical-align: middle; }
+}
+
+// ── Action buttons ────────────────────────────────────────────────────────────
+.btn-sm {
+  // Fixed width so Edit and Delete buttons are the same size in every row
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-state {
+  i { opacity: 0.3; } // Faded icon looks intentional, not broken
+}

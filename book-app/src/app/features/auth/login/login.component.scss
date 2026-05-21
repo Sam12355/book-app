@@ -1,0 +1,25 @@
+// login.component.scss — Styles scoped only to the LoginComponent
+
+// ── Card ─────────────────────────────────────────────────────────────────────
+.card {
+  border-radius: 1rem;                      // Rounded corners look modern
+  background-color: var(--surface-color);  // Theme-aware background
+}
+
+// ── Input group icons ─────────────────────────────────────────────────────────
+.input-group-text {
+  background-color: var(--input-bg);  // Matches the input background
+  border-color: var(--border-color);  // Matches the input border
+  color: var(--text-muted);           // Subtle icon colour
+}
+
+// ── Submit button ─────────────────────────────────────────────────────────────
+.btn-primary {
+  border-radius: 0.5rem;              // Slightly rounded button
+  font-size: 1rem;
+  transition: transform 0.1s ease;   // Tiny press-down effect on click
+
+  &:active {
+    transform: scale(0.98);          // Button slightly shrinks when clicked — tactile feel
+  }
+}

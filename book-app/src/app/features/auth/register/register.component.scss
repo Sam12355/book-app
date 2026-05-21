@@ -1,0 +1,23 @@
+// register.component.scss — Styles scoped only to RegisterComponent
+// Identical structure to login.component.scss — consistent look across auth pages
+
+.card {
+  border-radius: 1rem;
+  background-color: var(--surface-color);
+}
+
+.input-group-text {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.btn-primary {
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

@@ -1,0 +1,34 @@
+// navbar.component.scss — Styles scoped only to the NavbarComponent
+
+// ── Brand ────────────────────────────────────────────────────────────────────
+.navbar-brand {
+  font-size: 1.3rem;           // Slightly larger than default for prominence
+  letter-spacing: 0.5px;       // Slight letter spacing looks polished
+  color: var(--text-color) !important; // Use theme variable so it works in dark mode
+}
+
+// ── Nav links ────────────────────────────────────────────────────────────────
+.nav-link {
+  font-weight: 500;            // Medium weight — readable but not bold
+  transition: color 0.2s ease; // Smooth colour transition on hover
+
+  &:hover {
+    color: #0d6efd !important; // Bootstrap primary blue on hover
+  }
+
+  // Active link — the current page
+  &.active {
+    color: #0d6efd !important; // Bootstrap primary blue for the active page
+    font-weight: 600;          // Slightly bolder for the active item
+  }
+}
+
+// ── Dark mode toggle button ───────────────────────────────────────────────────
+.btn-outline-secondary {
+  border-color: var(--border-color); // Use theme variable for the border
+  color: var(--text-color);          // Use theme variable for the icon colour
+
+  &:hover {
+    background-color: var(--border-color); // Subtle fill on hover
+  }
+}

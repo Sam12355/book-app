@@ -1,0 +1,110 @@
+<!-- Login page — centred card layout -->
+<div class="page-content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+
+        <!-- Card wraps the form -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+
+            <!-- Header -->
+            <div class="text-center mb-4">
+              <i class="fas fa-book-open fa-3x text-primary mb-3"></i> <!-- Font Awesome icon -->
+              <h2 class="fw-bold mb-1">Welcome back</h2>
+              <p class="text-muted">Sign in to your BookShelf account</p>
+            </div>
+
+            <!-- Error alert — @if is Angular's new control flow (replaces *ngIf) -->
+            <!-- Only shown when errorMsg() has a value -->
+            @if (errorMsg()) {
+              <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                <i class="fas fa-circle-exclamation"></i>
+                <span>{{ errorMsg() }}</span> <!-- {{ }} = interpolation — renders the signal's value -->
+              </div>
+            }
+
+            <!-- Reactive form — [formGroup] binds this form element to our loginForm FormGroup -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+              <!-- Username field -->
+              <div class="mb-3">
+                <label for="username" class="form-label fw-semibold">Username</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <!-- formControlName links this input to the "username" FormControl -->
+                  <input
+                    id="username"
+                    type="text"
+                    class="form-control"
+                    formControlName="username"
+                    placeholder="Enter your username"
+                    [class.is-invalid]="username?.invalid && username?.touched">
+                    <!-- is-invalid adds Bootstrap red border when: field is invalid AND the user has touched it -->
+                </div>
+                <!-- Validation messages — only shown after the user has interacted with the field -->
+                @if (username?.touched && username?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Username is required.</div>
+                }
+                @if (username?.touched && username?.errors?.['minlength']) {
+                  <div class="invalid-feedback d-block">Username must be at least 3 characters.</div>
+                }
+              </div>
+
+              <!-- Password field -->
+              <div class="mb-4">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                  <input
+                    id="password"
+                    [type]="showPassword() ? 'text' : 'password'"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    [class.is-invalid]="password?.invalid && password?.touched">
+                  <button type="button" class="input-group-text" (click)="showPassword.set(!showPassword())" tabindex="-1">
+                    <i class="fas" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+                  </button>
+                </div>
+                @if (password?.touched && password?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Password is required.</div>
+                }
+                @if (password?.touched && password?.errors?.['minlength']) {
+                  <div class="invalid-feedback d-block">Password must be at least 6 characters.</div>
+                }
+              </div>
+
+              <!-- Submit button -->
+              <!-- [disabled] disables the button while loading OR if the form is invalid -->
+              <button
+                type="submit"
+                class="btn btn-primary w-100 py-2 fw-semibold"
+                [disabled]="loginForm.invalid || isLoading()">
+                @if (isLoading()) {
+                  <!-- Bootstrap spinner shown while the API call is in flight -->
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  Signing in...
+                } @else {
+                  <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                }
+              </button>
+
+            </form>
+
+            <!-- Footer link to register -->
+            <div class="text-center mt-4">
+              <span class="text-muted">Don't have an account? </span>
+              <!-- routerLink navigates without page reload -->
+              <a routerLink="/register" class="text-primary fw-semibold text-decoration-none">
+                Create one
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

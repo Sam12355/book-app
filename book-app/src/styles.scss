@@ -1,0 +1,177 @@
+// ─────────────────────────────────────────────────────────────
+// styles.scss — Global stylesheet for the entire application
+// Bootstrap and Font Awesome are loaded via angular.json (not here)
+// This file handles: CSS theme variables, dark mode, global resets
+// ─────────────────────────────────────────────────────────────
+
+// ── Light theme variables (default) ──────────────────────────
+// CSS custom properties (variables) — defined on :root so they're
+// available everywhere. Changing these values changes the whole theme.
+:root {
+  --bg-color:         #f8f9fa;   // Page background — light grey
+  --surface-color:    #ffffff;   // Cards, navbar, modals — white
+  --text-color:       #212529;   // Primary text — near black
+  --text-muted:       #6c757d;   // Secondary text — grey
+  --border-color:     #dee2e6;   // Borders and dividers
+  --input-bg:         #ffffff;   // Form input background
+  --table-stripe:     #f8f9fa;   // Alternating table row colour
+  --shadow:           0 2px 8px rgba(0, 0, 0, 0.08); // Subtle card shadow
+}
+
+// ── Dark theme variables ──────────────────────────────────────
+// Applied when the JS dark mode toggle adds class="dark-mode" to <body>
+// Two sets of overrides:
+//   1. Our own --var-* custom properties (used by component SCSS)
+//   2. Bootstrap's --bs-* custom properties (used internally by Bootstrap classes)
+body.dark-mode {
+  // ── Our custom variables ───────────────────────────────────
+  --bg-color:         #121212;
+  --surface-color:    #1e1e1e;
+  --text-color:       #e0e0e0;
+  --text-muted:       #9e9e9e;
+  --border-color:     #333333;
+  --input-bg:         #2c2c2c;
+  --table-stripe:     #252525;
+  --shadow:           0 2px 8px rgba(0, 0, 0, 0.4);
+
+  // ── Bootstrap body variables ───────────────────────────────
+  --bs-body-bg:                   #121212;
+  --bs-body-color:                #e0e0e0;
+  --bs-emphasis-color:            #e0e0e0; // navbar + headings use this
+  --bs-emphasis-color-rgb:        224, 224, 224; // navbar text = rgba(this, 0.65)
+  --bs-secondary-color:           #9e9e9e; // drives .text-muted internally
+  --bs-tertiary-bg:               #252525;
+  --bs-border-color:              #333333;
+  --bs-border-color-translucent:  rgba(255, 255, 255, 0.1);
+
+  // ── Bootstrap card variables ───────────────────────────────
+  --bs-card-bg:           #1e1e1e;
+  --bs-card-border-color: #333333;
+  --bs-card-cap-bg:       #252525;
+  --bs-card-color:        #e0e0e0;
+
+  // ── Bootstrap table variables ──────────────────────────────
+  --bs-table-bg:          #1e1e1e;
+  --bs-table-color:       #e0e0e0;
+  --bs-table-border-color:#333333;
+  --bs-table-striped-bg:  #252525;
+  --bs-table-hover-bg:    #2a2a2a;
+
+  // ── Bootstrap form variables ───────────────────────────────
+  --bs-form-control-bg:           #2c2c2c;
+  --bs-form-control-color:        #e0e0e0;
+  --bs-form-select-bg:            #2c2c2c;
+  --bs-input-group-addon-bg:      #2c2c2c;
+  --bs-input-group-addon-color:   #9e9e9e;
+  --bs-input-group-addon-border-color: #333333;
+
+  // ── Bootstrap contextual badge/alert subtle colours ────────
+  // These are the light pastel tints Bootstrap 5.3 uses for
+  // bg-primary-subtle, text-primary-emphasis, alert-danger etc.
+  // Without overriding these, badges and alerts stay white in dark mode.
+  --bs-primary-bg-subtle:       #031633;
+  --bs-primary-border-subtle:   #084298;
+  --bs-primary-text-emphasis:   #6ea8fe;
+
+  --bs-danger-bg-subtle:        #2c0b0e;
+  --bs-danger-border-subtle:    #842029;
+  --bs-danger-text-emphasis:    #ea868f;
+
+  --bs-success-bg-subtle:       #051b11;
+  --bs-success-border-subtle:   #0f5132;
+  --bs-success-text-emphasis:   #75b798;
+
+  --bs-warning-bg-subtle:       #332701;
+  --bs-warning-border-subtle:   #997404;
+  --bs-warning-text-emphasis:   #ffc107;
+
+  // ── Bootstrap navbar variables ─────────────────────────────
+  // The hamburger icon SVG uses a dark stroke by default (for navbar-light).
+  // We swap it to a light stroke so it's visible on the dark navbar.
+  --bs-navbar-color:        rgba(224, 224, 224, 0.85);
+  --bs-navbar-hover-color:  #ffffff;
+  --bs-navbar-active-color: #ffffff;
+  --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.15);
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255%2C255%2C255%2C0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+
+  // ── Bootstrap dropdown variables ───────────────────────────
+  --bs-dropdown-bg:               #1e1e1e;
+  --bs-dropdown-border-color:     #333333;
+  --bs-dropdown-link-color:       #e0e0e0;
+  --bs-dropdown-link-hover-color: #ffffff;
+  --bs-dropdown-link-hover-bg:    #2c2c2c;
+  --bs-dropdown-divider-bg:       #333333;
+}
+
+// ── Base styles ───────────────────────────────────────────────
+// Apply theme variables to the body — all pages inherit these
+body {
+  background-color: var(--bg-color);    // Use the CSS variable — swaps on dark mode
+  color: var(--text-color);             // Use the CSS variable
+  transition: background-color 0.3s ease, color 0.3s ease; // Smooth theme transition
+  min-height: 100vh;                    // Always fill the full viewport height
+}
+
+// ── Cards ─────────────────────────────────────────────────────
+.card {
+  background-color: var(--surface-color);  // Cards use the surface colour variable
+  border-color: var(--border-color);       // Border uses the border variable
+  box-shadow: var(--shadow);               // Subtle shadow
+  transition: box-shadow 0.2s ease;        // Smooth hover effect
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); // Slightly stronger shadow on hover
+  }
+}
+
+// ── Forms ─────────────────────────────────────────────────────
+.form-control,
+.form-select {
+  background-color: var(--input-bg);    // Input background follows the theme
+  border-color: var(--border-color);    // Border follows the theme
+  color: var(--text-color);             // Text follows the theme
+
+  &:focus {
+    background-color: var(--input-bg);  // Keep background on focus
+    color: var(--text-color);           // Keep text colour on focus
+    border-color: #0d6efd;              // Bootstrap primary blue on focus
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); // Bootstrap focus ring
+  }
+}
+
+// ── Tables ────────────────────────────────────────────────────
+.table {
+  color: var(--text-color);            // Table text follows the theme
+
+  > :not(caption) > * > * {
+    background-color: var(--surface-color); // Cell backgrounds follow the theme
+    border-color: var(--border-color);      // Cell borders follow the theme
+  }
+
+  &.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--table-stripe); // Striped rows use the stripe variable
+  }
+}
+
+// ── Navbar ────────────────────────────────────────────────────
+.navbar {
+  background-color: var(--surface-color) !important; // Navbar follows the theme
+  border-bottom: 1px solid var(--border-color);       // Subtle bottom border
+  box-shadow: var(--shadow);                          // Consistent shadow
+}
+
+.navbar-brand,
+.nav-link {
+  color: var(--text-color) !important; // Nav links follow the theme
+}
+
+// ── Utility ───────────────────────────────────────────────────
+.text-muted {
+  color: var(--text-muted) !important; // Override Bootstrap's muted colour with our variable
+}
+
+// Page content spacing — pushes content below the fixed navbar
+.page-content {
+  padding-top: 80px;      // Height of the navbar + a little breathing room
+  padding-bottom: 40px;   // Bottom breathing room
+}

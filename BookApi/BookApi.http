@@ -1,0 +1,115 @@
+# ============================================================
+# BookApi — HTTP Test File
+# How to use in VS Code:
+#   1. Install the "REST Client" extension (by Huachao Mao)
+#   2. Click "Send Request" above any request to run it
+#   3. Run them IN ORDER — register first, then login, then books
+# ============================================================
+
+# The base address of our API — change the port if dotnet run uses a different one
+@host = http://localhost:5243
+
+# After you run the Login request, copy the token value from the response
+# and paste it below (replace the placeholder text)
+@token = PASTE_YOUR_TOKEN_HERE
+
+
+### ─────────────────────────────────────────
+### STEP 1 — Register a new user
+### Expected response: 200 OK "User registered successfully."
+### ─────────────────────────────────────────
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+
+### ─────────────────────────────────────────
+### STEP 2 — Login with that user
+### Expected response: 200 OK { "token": "eyJhbG..." }
+### Copy the token value and paste it into @token above
+### ─────────────────────────────────────────
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+
+### ─────────────────────────────────────────
+### STEP 3 — Try accessing books WITHOUT a token
+### Expected response: 401 Unauthorized  ← proves [Authorize] works
+### ─────────────────────────────────────────
+GET {{host}}/api/books
+
+
+### ─────────────────────────────────────────
+### STEP 4 — Create a book (requires token)
+### Expected response: 201 Created — returns the new book with its Id
+### ─────────────────────────────────────────
+POST {{host}}/api/books
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Dune",
+  "author": "Frank Herbert",
+  "publicationDate": "1965-08-01"
+}
+
+
+### ─────────────────────────────────────────
+### STEP 5 — Get all books (requires token)
+### Expected response: 200 OK — array containing the book we just created
+### ─────────────────────────────────────────
+GET {{host}}/api/books
+Authorization: Bearer {{token}}
+
+
+### ─────────────────────────────────────────
+### STEP 6 — Update the book (change Id if yours is different)
+### Expected response: 200 OK — returns the updated book
+### ─────────────────────────────────────────
+PUT {{host}}/api/books/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Dune (Updated)",
+  "author": "Frank Herbert",
+  "publicationDate": "1965-08-01"
+}
+
+
+### ─────────────────────────────────────────
+### STEP 7 — Create a quote (requires token)
+### Expected response: 201 Created
+### ─────────────────────────────────────────
+POST {{host}}/api/quotes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "text": "The mystery of life is not a problem to be solved but a reality to be experienced."
+}
+
+
+### ─────────────────────────────────────────
+### STEP 8 — Get all quotes (requires token)
+### Expected response: 200 OK — array with the quote above
+### ─────────────────────────────────────────
+GET {{host}}/api/quotes
+Authorization: Bearer {{token}}
+
+
+### ─────────────────────────────────────────
+### STEP 9 — Delete the book (requires token)
+### Expected response: 204 No Content
+### ─────────────────────────────────────────
+DELETE {{host}}/api/books/1
+Authorization: Bearer {{token}}

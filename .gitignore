@@ -1,0 +1,30 @@
+# ── .NET ────────────────────────────────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.db
+*.db-shm
+*.db-wal
+
+# Don't commit the production secret — set JWT_KEY as an env var on the host
+# appsettings.json is still committed (it has non-secret defaults)
+
+# ── Angular ─────────────────────────────────────────────────────────────────
+book-app/node_modules/
+book-app/dist/
+book-app/.angular/cache/
+book-app/coverage/
+
+# ── OS / editors ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+
+# ── Misc ─────────────────────────────────────────────────────────────────────
+*.md.bak
+ok-now-you-have-cached-nest.md
+test.md
+work.md

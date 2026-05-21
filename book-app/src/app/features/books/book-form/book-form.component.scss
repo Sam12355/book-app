@@ -1,0 +1,27 @@
+// book-form.component.scss
+
+.card {
+  border-radius: 1rem;
+  background-color: var(--surface-color); // Theme-aware
+}
+
+.input-group-text {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+// Make Cancel and Save buttons equal width side by side
+.btn.flex-fill {
+  min-width: 0; // Prevents button from overflowing on very small screens
+}
+
+// Style the native date picker to match our theme
+input[type="date"] {
+  color-scheme: light; // Forces light date picker UI in all browsers
+}
+
+// In dark mode, switch date picker to dark colour scheme
+:host-context(body.dark-mode) input[type="date"] {
+  color-scheme: dark; // Makes the browser's date popup use dark colours
+}

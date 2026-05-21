@@ -1,0 +1,140 @@
+<!-- Book Form — handles both Add New Book and Edit Book -->
+<div class="page-content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+
+        <!-- Back link -->
+        <a routerLink="/books" class="btn btn-link ps-0 mb-3 text-decoration-none text-muted">
+          <i class="fas fa-arrow-left me-1"></i>Back to Books
+        </a>
+
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+
+            <!-- Dynamic header — changes between "Add New Book" and "Edit Book" -->
+            <div class="mb-4">
+              <h2 class="fw-bold mb-1">
+                <!-- Ternary in template: condition ? 'if true' : 'if false' -->
+                <i class="fas me-2 text-primary"
+                   [class.fa-plus-circle]="!isEditMode()"
+                   [class.fa-pen-to-square]="isEditMode()">
+                </i>
+                {{ pageTitle() }}
+              </h2>
+              <p class="text-muted mb-0">
+                {{ isEditMode() ? 'Update the details below.' : 'Fill in the details to add a new book.' }}
+              </p>
+            </div>
+
+            <!-- Loading overlay — shown while fetching book data in edit mode -->
+            @if (isLoading() && isEditMode() && !bookForm.dirty) {
+              <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="text-muted mt-2">Loading book details...</p>
+              </div>
+            }
+
+            <!-- Error alert -->
+            @if (errorMsg()) {
+              <div class="alert alert-danger d-flex align-items-center gap-2">
+                <i class="fas fa-circle-exclamation"></i>
+                <span>{{ errorMsg() }}</span>
+              </div>
+            }
+
+            <!-- Form -->
+            <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+
+              <!-- Title -->
+              <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">
+                  <i class="fas fa-heading me-1 text-muted"></i>Title
+                </label>
+                <input
+                  id="title"
+                  type="text"
+                  class="form-control"
+                  formControlName="title"
+                  placeholder="e.g. The Great Gatsby"
+                  [class.is-invalid]="title?.invalid && title?.touched"
+                  [class.is-valid]="title?.valid && title?.touched">
+                @if (title?.touched && title?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Title is required.</div>
+                }
+                @if (title?.touched && title?.errors?.['maxlength']) {
+                  <div class="invalid-feedback d-block">Title cannot exceed 200 characters.</div>
+                }
+              </div>
+
+              <!-- Author -->
+              <div class="mb-3">
+                <label for="author" class="form-label fw-semibold">
+                  <i class="fas fa-pen-nib me-1 text-muted"></i>Author
+                </label>
+                <input
+                  id="author"
+                  type="text"
+                  class="form-control"
+                  formControlName="author"
+                  placeholder="e.g. F. Scott Fitzgerald"
+                  [class.is-invalid]="author?.invalid && author?.touched"
+                  [class.is-valid]="author?.valid && author?.touched">
+                @if (author?.touched && author?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Author is required.</div>
+                }
+                @if (author?.touched && author?.errors?.['maxlength']) {
+                  <div class="invalid-feedback d-block">Author cannot exceed 100 characters.</div>
+                }
+              </div>
+
+              <!-- Publication Date -->
+              <div class="mb-4">
+                <label for="publicationDate" class="form-label fw-semibold">
+                  <i class="fas fa-calendar me-1 text-muted"></i>Publication Date
+                </label>
+                <!-- type="date" renders a native browser date picker -->
+                <input
+                  id="publicationDate"
+                  type="date"
+                  class="form-control"
+                  formControlName="publicationDate"
+                  [class.is-invalid]="publicationDate?.invalid && publicationDate?.touched"
+                  [class.is-valid]="publicationDate?.valid && publicationDate?.touched">
+                @if (publicationDate?.touched && publicationDate?.errors?.['required']) {
+                  <div class="invalid-feedback d-block">Publication date is required.</div>
+                }
+              </div>
+
+              <!-- Action buttons -->
+              <div class="d-flex gap-2">
+                <!-- Cancel — goes back to the list without saving -->
+                <a routerLink="/books" class="btn btn-outline-secondary flex-fill">
+                  <i class="fas fa-xmark me-2"></i>Cancel
+                </a>
+                <!-- Submit — disabled while loading or form is invalid -->
+                <button
+                  type="submit"
+                  class="btn btn-primary flex-fill"
+                  [disabled]="bookForm.invalid || isLoading()">
+                  @if (isLoading() && bookForm.dirty) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Saving...
+                  } @else {
+                    <i class="fas me-2"
+                       [class.fa-plus]="!isEditMode()"
+                       [class.fa-floppy-disk]="isEditMode()">
+                    </i>
+                    {{ isEditMode() ? 'Save Changes' : 'Add Book' }}
+                  }
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
