@@ -1,8 +1,6 @@
 # BookShelf App
 
-A full-stack web application where users can manage their book collection and save their favourite quotes. Built with Angular 20 on the frontend and .NET 9 on the backend.
-
----
+A full-stack web app where users can manage their book collection and save favourite quotes. Built with Angular 20 on the frontend and .NET 9 on the backend.
 
 ## What it does
 
@@ -11,11 +9,9 @@ Users create an account and log in. After logging in they can:
 - Add, edit, and delete books from their personal collection
 - Save, edit, and delete their favourite quotes
 - Switch between a light and dark theme
-- Use the app comfortably on any device — phone, tablet, or desktop
+- Use the app on any device (phone, tablet, or desktop)
 
-Each user only ever sees their own books and quotes. Everything is protected so one user cannot access another user's data.
-
----
+Each user only sees their own books and quotes. One user cannot access another user's data.
 
 ## Tech stack
 
@@ -26,15 +22,11 @@ Each user only ever sees their own books and quotes. Everything is protected so 
 | Database | SQLite via Entity Framework Core |
 | Authentication | JWT (JSON Web Tokens) |
 
----
-
 ## How authentication works
 
-When a user registers, their password is hashed with BCrypt and stored safely in the database — the plain password is never saved anywhere.
+When a user registers, their password is hashed with BCrypt and stored in the database. The plain password is never saved.
 
-When a user logs in, the server checks the hash and if it matches, generates a JWT token. The token is a small signed string that the browser stores in localStorage. Every API request the frontend makes automatically attaches this token in the request header. The server reads the token to know who is making the request without touching the database each time.
-
----
+When a user logs in, the server checks the hash and if it matches, generates a JWT token. The browser stores this token in localStorage. Every API request automatically attaches the token in the request header so the server knows who is making the request.
 
 ## Project structure
 
@@ -50,7 +42,7 @@ book-app/                 Angular 20 frontend
   src/app/
     core/
       services/           AuthService, BooksService, QuotesService
-      interceptors/       Automatically attaches JWT to every request
+      interceptors/       Attaches JWT to every outgoing request
       guards/             Blocks unauthenticated users from protected pages
       models/             TypeScript interfaces for Book, Quote, Auth
     features/
@@ -60,8 +52,6 @@ book-app/                 Angular 20 frontend
     shared/
       navbar/             Top navigation bar with dark mode toggle
 ```
-
----
 
 ## Running the project locally
 
@@ -84,32 +74,41 @@ The app runs at `http://localhost:4200`.
 
 Open `http://localhost:4200` in your browser, register an account, and start adding books.
 
----
-
 ## Features
 
 **Books**
-- View all your books in a sortable table
+- View all your books in a table
 - Add a new book with title, author, and publication date
-- Edit any book's details
+- Edit any book
 - Delete a book with a confirmation modal
 
 **My Quotes**
-- See all your saved quotes as cards in a responsive grid
+- See all your saved quotes as cards
 - Add a quote using the form at the top of the page
-- Edit a quote inline — the card turns into a form, no page change needed
+- Edit a quote inline without leaving the page
 - Delete a quote with a confirmation modal
 
 **Authentication**
 - Register a new account
 - Log in and receive a JWT token
-- Token is stored in the browser and sent automatically with every request
-- Protected routes redirect to login if the user is not authenticated
-- Logout clears the token from the browser
+- Token is stored in the browser and sent with every request automatically
+- Protected routes redirect to login if not authenticated
+- Logout clears the token
 
 **UI**
-- Responsive layout that works on mobile, tablet, and desktop
+- Works on mobile, tablet, and desktop
 - Navbar collapses to a hamburger menu on small screens
-- Light and dark theme toggle — preference is saved so it persists on reload
-- Loading spinners on buttons while requests are in flight
-- Error messages shown in the UI without any browser alert boxes
+- Light and dark theme toggle that saves your preference
+- Loading spinners on buttons while waiting for a response
+- Error messages shown in the UI, no browser alert boxes
+
+## Tests
+
+**Backend (xUnit)**
+- `BookApi.Tests/AuthServiceTests.cs` covers register, login, and token generation
+- `BookApi.Tests/BooksControllerTests.cs` covers CRUD operations and user isolation
+
+**Frontend (Vitest)**
+- `auth.service.spec.ts` covers token storage, login, register, and logout
+- `books.service.spec.ts` covers all HTTP calls
+- `toast.service.spec.ts` covers toast display and auto-dismiss
