@@ -65,7 +65,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build(); // Build the app — everything registered above is now locked in and ready
 
-// Run any pending migrations on startup so the database is ready in fresh environments (e.g. Render)
+// Run any pending migrations on startup so the database is ready in fresh environments
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -135,3 +135,6 @@ app.Run(); // Start the web server and begin listening for incoming HTTP request
  *   If the token is valid → the request proceeds to the controller method.
  * ============================================================
  */
+
+// Makes the Program class visible to the integration test project
+public partial class Program { }
