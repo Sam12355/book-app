@@ -73,6 +73,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build(); // Build the app — everything registered above is now locked in and ready
 
+// Run any pending migrations on startup so the database is ready in fresh environments (e.g. Render)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment()) // Only in development mode (not in production)
 {
     app.MapOpenApi(); // Expose the OpenAPI endpoint so developers can browse the API docs
